@@ -127,30 +127,13 @@ def find_existing_notes(frequencies):
 if __name__ == "__main__":
     sample_rate = 44100
 
-    start_time1 = time.time()
     # Use test_signal_generator to generate signal
     t, tone_array = test_signal_generator.generate_int16_sine_wave(196, sampling_rate=sample_rate, duration=1)
-
-    end_time1 = time.time()
-    start_time2 = time.time()
 
     # Use frequency_analysis to extract the frequencies out of the signal
     fft_magnitude, fft_freq = frequency_analysis.generate_fft(tone_array, sample_rate)
     major_peaks_freq, _ = frequency_analysis.find_normalized_peaks(fft_magnitude, fft_freq)
 
-    end_time2 = time.time()
-
-    start_time3 = time.time()
     # Use note_finder to determine notes based on the extracted frequencies
     existing_notes = find_existing_notes(major_peaks_freq)
     print(existing_notes)
-
-    end_time3 = time.time()
-
-    duration1 = end_time1 - start_time1
-    print("Duration1: {:.8f} seconds".format(duration1))
-    duration2 = end_time2 - start_time2
-    print("Duration2: {:.8f} seconds".format(duration2))
-    duration3 = end_time3 - start_time3
-    print("Duration3: {:.8f} seconds".format(duration3))
-
