@@ -128,10 +128,13 @@ if __name__ == "__main__":
     sample_rate = 44100
 
     # Use test_signal_generator to generate signal
-    t, tone_array = test_signal_generator.generate_int16_sine_wave(196, sampling_rate=sample_rate, duration=1)
+    t, tone_array = test_signal_generator.generate_sine_wave(196, sampling_rate=sample_rate, duration=1)
+    t2, tone_array2 = test_signal_generator.generate_sine_wave(440, sampling_rate=sample_rate, duration=1)
+
+    overall_signal = tone_array + tone_array2
 
     # Use frequency_analysis to extract the frequencies out of the signal
-    fft_magnitude, fft_freq = frequency_analysis.generate_fft(tone_array, sample_rate)
+    fft_magnitude, fft_freq = frequency_analysis.generate_fft(overall_signal, sample_rate)
     major_peaks_freq, _ = frequency_analysis.find_normalized_peaks(fft_magnitude, fft_freq)
 
     # Use note_finder to determine notes based on the extracted frequencies

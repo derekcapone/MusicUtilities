@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import find_peaks
-import test_signal_generator as signal_gen
+import test_signal_generator
 
 
 def generate_fft(signal, sample_rate):
@@ -54,10 +54,13 @@ if __name__ == "__main__":
     duration = 1  # duration of the signal (seconds)
 
     # Generate sine wave
-    t, sine_wave = signal_gen.generate_int16_sine_wave(frequency, sampling_rate, duration)
+    t, tone_array = test_signal_generator.generate_sine_wave(196, sampling_rate=sampling_rate, duration=1)
+    t2, tone_array2 = test_signal_generator.generate_sine_wave(440, sampling_rate=sampling_rate, duration=1)
+
+    overall_signal = tone_array + tone_array2
 
     # Find FFT and find peaks
-    fft_magnitude, fft_freq = generate_fft(sine_wave, sampling_rate)
+    fft_magnitude, fft_freq = generate_fft(overall_signal, sampling_rate)
     major_peaks_freq, major_peaks_magnitude = find_normalized_peaks(fft_magnitude, fft_freq)
 
     # Plotting (Optional)
@@ -66,5 +69,5 @@ if __name__ == "__main__":
     plt.title("FFT of the Sine Wave with Peaks")
     plt.xlabel("Frequency (Hz)")
     plt.ylabel("Magnitude")
-    plt.xlim(0, 1000)  # Limit x-axis for better visibility
+    plt.xlim(0, 600)
     plt.show()

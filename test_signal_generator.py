@@ -1,6 +1,7 @@
 import numpy as np
 
-def generate_int16_sine_wave(frequency, sampling_rate=44100, duration=1):
+
+def generate_sine_wave(frequency, sampling_rate=44100, duration=1):
     """
     Generates a sine wave of the given characteristics in int16 format
     :param frequency: frequency of sine wave
@@ -15,4 +16,4 @@ def generate_int16_sine_wave(frequency, sampling_rate=44100, duration=1):
     sine_wave = np.sin(2 * np.pi * frequency * t)
 
     # Scale to int16
-    return t, np.int16(sine_wave * 32767)
+    return t, np.array(sine_wave * 32767)
