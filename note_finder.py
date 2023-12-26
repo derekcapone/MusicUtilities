@@ -1,3 +1,7 @@
+import test_signal_generator
+import frequency_analysis
+import time
+
 # Frequencies of all possible notes
 notes_frequencies = {
     "C0": 16.35, "C#0/Db0": 17.32, "D0": 18.35, "D#0/Eb0": 19.45, "E0": 20.60,
@@ -99,18 +103,54 @@ def find_note_frequency(note="A4"):
         return None
 
 
-def find_closest_note(frequency):
+def find_single_note(frequency):
     """
     Finds the note that is closest in frequency to the given frequency
     :param frequency: frequency to test
     :return: closest note name, frequency diff between given note and closest note
     """
+    # TODO: Update finding closest note to have a maximum frequency difference
     closest_note = min(notes_frequencies, key=lambda note: abs(notes_frequencies[note] - frequency))
     # Calculate the difference in frequency
     frequency_difference = abs(notes_frequencies[closest_note] - frequency)
     return closest_note, frequency_difference
 
 
+def find_existing_notes(frequencies):
+    existing_notes = []
+    for frequency in frequencies:
+        # TODO: Update finding closest note to have a maximum frequency difference
+        existing_notes.append(min(notes_frequencies, key=lambda note: abs(notes_frequencies[note] - frequency)))
+    return existing_notes
+
+
 if __name__ == "__main__":
-    note_string = "C#8"
-    find_note_frequency(note_string)
+    sample_rate = 44100
+
+    start_time1 = time.time()
+    # Use test_signal_generator to generate signal
+    t, tone_array = test_signal_generator.generate_int16_sine_wave(196, sampling_rate=sample_rate, duration=1)
+
+    end_time1 = time.time()
+    start_time2 = time.time()
+
+    # Use frequency_analysis to extract the frequencies out of the signal
+    fft_magnitude, fft_freq = frequency_analysis.generate_fft(tone_array, sample_rate)
+    major_peaks_freq, _ = frequency_analysis.find_normalized_peaks(fft_magnitude, fft_freq)
+
+    end_time2 = time.time()
+
+    start_time3 = time.time()
+    # Use note_finder to determine notes based on the extracted frequencies
+    existing_notes = find_existing_notes(major_peaks_freq)
+    print(existing_notes)
+
+    end_time3 = time.time()
+
+    duration1 = end_time1 - start_time1
+    print("Duration1: {:.8f} seconds".format(duration1))
+    duration2 = end_time2 - start_time2
+    print("Duration2: {:.8f} seconds".format(duration2))
+    duration3 = end_time3 - start_time3
+    print("Duration3: {:.8f} seconds".format(duration3))
+

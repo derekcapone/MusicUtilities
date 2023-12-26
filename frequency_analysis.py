@@ -1,24 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import find_peaks
-
-
-def generate_int16_sine_wave(frequency, sampling_rate=44100, duration=1):
-    """
-    Generates a sine wave of the given characteristics in int16 format
-    :param frequency: frequency of sine wave
-    :param sampling_rate: sampling rate of sine wave
-    :param duration: duration of signal
-    :return: time array and int16 numpy array of generated sine wave
-    """
-    # Generate time values
-    t = np.linspace(0, duration, int(sampling_rate * duration), endpoint=False)
-
-    # Generate sine wave values
-    sine_wave = np.sin(2 * np.pi * frequency * t)
-
-    # Scale to int16
-    return t, np.int16(sine_wave * 32767)
+import test_signal_generator as signal_gen
 
 
 def generate_fft(signal, sample_rate):
@@ -71,7 +54,7 @@ if __name__ == "__main__":
     duration = 1  # duration of the signal (seconds)
 
     # Generate sine wave
-    t, sine_wave = generate_int16_sine_wave(frequency, sampling_rate, duration)
+    t, sine_wave = signal_gen.generate_int16_sine_wave(frequency, sampling_rate, duration)
 
     # Find FFT and find peaks
     fft_magnitude, fft_freq = generate_fft(sine_wave, sampling_rate)
