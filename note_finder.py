@@ -1,6 +1,9 @@
 import test_signal_generator
 import frequency_analysis
-import time
+import note_enum
+
+# Notes irrespective of octave
+simple_notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"}
 
 # Frequencies of all possible notes
 notes_frequencies = {
@@ -63,6 +66,13 @@ enharmonic_equivalents = {
 }
 
 
+class Note:
+    def __init__(self, note_string):
+        print(f"Creating note class for {note_string}")
+        self.note_string = note_string
+        self.note = note_enum.note_enum_factory(note_string)
+
+
 def generate_note_string(note_string):
     """
     Generates note string if passed in string has an enharmonic equivalent
@@ -103,35 +113,36 @@ def find_note_frequency(note="A4"):
         return None
 
 
-def find_single_note(frequency):
-    """
-    Finds the note that is closest in frequency to the given frequency
-    :param frequency: frequency to test
-    :return: closest note name, frequency diff between given note and closest note
-    """
-    # TODO: Update finding closest note to have a maximum frequency difference
-    closest_note = min(notes_frequencies, key=lambda note: abs(notes_frequencies[note] - frequency))
-    # Calculate the difference in frequency
-    frequency_difference = abs(notes_frequencies[closest_note] - frequency)
-    return closest_note, frequency_difference
-
-
 def find_existing_notes(frequencies):
     existing_notes = []
     for frequency in frequencies:
         # TODO: Update finding closest note to have a maximum frequency difference
-        existing_notes.append(min(notes_frequencies, key=lambda note: abs(notes_frequencies[note] - frequency)))
+        new_note = min(notes_frequencies, key=lambda note: abs(notes_frequencies[note] - frequency))
+        existing_notes.append(Note(new_note))
     return existing_notes
+
+
+def find_interval(root_note, next_note):
+    """
+    Takes 2 Note objects and finds the interval between them irrespective of octave
+    :param root_note:
+    :param next_note:
+    :return:
+    """
+    print(f"Finding interval for {next_note} compared to {root_note}")
+    if not isinstance(root_note, Note) or not isinstance(next_note, Note):
+        raise Exception("root_note or next_note are not of type Note")
 
 
 if __name__ == "__main__":
     sample_rate = 44100
 
     # Use test_signal_generator to generate signal
-    t, tone_array = test_signal_generator.generate_sine_wave(196, sampling_rate=sample_rate, duration=1)
-    t2, tone_array2 = test_signal_generator.generate_sine_wave(440, sampling_rate=sample_rate, duration=1)
+    _, tone_array = test_signal_generator.generate_sine_wave(196, sampling_rate=sample_rate, duration=1)
+    _, tone_array2 = test_signal_generator.generate_sine_wave(440, sampling_rate=sample_rate, duration=1)
+    _, tone_array3 = test_signal_generator.generate_sine_wave(4978.03, sampling_rate=sample_rate, duration=1)
 
-    overall_signal = tone_array + tone_array2
+    overall_signal = tone_array + tone_array2 + tone_array3
 
     # Use frequency_analysis to extract the frequencies out of the signal
     fft_magnitude, fft_freq = frequency_analysis.generate_fft(overall_signal, sample_rate)
