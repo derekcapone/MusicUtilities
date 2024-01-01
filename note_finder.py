@@ -1,6 +1,6 @@
 import test_signal_generator
 import frequency_analysis
-import note_enum
+from note import Note
 
 # Notes irrespective of octave
 simple_notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"}
@@ -64,13 +64,6 @@ enharmonic_equivalents = {
     "C#8": "Db8", "D#8": "Eb8", "F#8": "Gb8", "G#8": "Ab8", "A#8": "Bb8",
     "Db8": "C#8", "Eb8": "D#8", "Gb8": "F#8", "Ab8": "G#8", "Bb8": "A#8"
 }
-
-
-class Note:
-    def __init__(self, note_string):
-        print(f"Creating note class for {note_string}")
-        self.note_string = note_string
-        self.note = note_enum.note_enum_factory(note_string)
 
 
 def generate_note_string(note_string):
