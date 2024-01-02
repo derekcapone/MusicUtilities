@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import find_peaks
-import test_signal_generator
+from signal_generation import test_signal_generator
 
 
 def generate_fft(signal, sample_rate):

@@ -1,5 +1,5 @@
 import note_value_enum
-import test_signal_generator
+from signal_generation import test_signal_generator
 import frequency_analysis
 
 # Frequencies of all possible notes

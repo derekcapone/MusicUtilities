@@ -1,4 +1,6 @@
 import numpy as np
+import white_noise_generator as wn
+import soundfile as sf
 
 
 def generate_sine_wave(frequency, sampling_rate=44100, duration=1):
@@ -17,3 +19,16 @@ def generate_sine_wave(frequency, sampling_rate=44100, duration=1):
 
     # Scale to int16
     return t, np.array(sine_wave * 32767)
+
+
+if __name__ == '__main__':
+    sample_rate = 44100
+    duration = 5  # 5 seconds
+    iterations = 30
+
+
+    song_arr = np.empty(shape=0, dtype=np.int16)
+    for i in range(iterations):
+        song_arr = np.concatenate([song_arr, wn.generate_white_noise(duration, sample_rate)])
+
+    sf.write(r'../audio_files/test_files/test_file.wav', song_arr, sample_rate)

@@ -22,4 +22,4 @@ def write_white_noise_to_file(file, normalized_wn_array, sample_rate=44100):
 
 if __name__ == '__main__':
     white_noise_array = generate_white_noise()
-    write_white_noise_to_file(r'audio_files/white_noise/test_file.wav', white_noise_array)
+    write_white_noise_to_file(r'../audio_files/white_noise/test_file.wav', white_noise_array)
