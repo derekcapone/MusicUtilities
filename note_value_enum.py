@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class NoteValue(Enum):
+class NoteValue(Enum):#
     C = 0
     C_sharp = 1
     D = 2

@@ -122,6 +122,22 @@ def find_note_frequency(note="A4"):
         return None
 
 
+def get_simple_note_string(note_string):
+    """
+    Get simple note string for provided note_string (C# instead of C#2, etc)
+    :param note_string: Full note_string for provided note
+    :return: Simple note string for provided note
+    """
+    # Check if note string is already simple
+    if len(note_string) < 2:
+        return note_string
+
+    if note_string[1] == '#' or note_string[1] == 'b':
+        return note_string[:2]
+    else:
+        return note_string[:1]
+
+
 class Note:
     def __init__(self, note_string=None, frequency=None):
         """
@@ -140,14 +156,15 @@ class Note:
             self.note_string = note_string
             self.note = note_value_enum.note_enum_factory(note_string)
             self.note_frequency = find_note_frequency(note_string)
+            self.simple_note_string = get_simple_note_string(self.note_string)
 
         # Instantiate based on frequency
         if frequency is not None:
-            print("Using frequency to figure out note")
             self.note_frequency = frequency
             # TODO: Update finding closest note to have a maximum frequency difference
             self.note_string = min(notes_frequencies, key=lambda note: abs(notes_frequencies[note] - frequency))
             self.note = note_value_enum.note_enum_factory(self.note_string)
+            self.simple_note_string = get_simple_note_string(self.note_string)
 
 
 if __name__ == '__main__':

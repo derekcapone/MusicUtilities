@@ -1,9 +1,12 @@
 from enum import Enum
 
+simple_notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"}
 
-class Interval(Enum):
+
+class ChordInterval(Enum):
     """
     Enum to describe the intervals with respect to half step note changes
+    These intervals are used to determine chords so will be used with respect to the root note
     """
     UNISON = 0
     MINOR_SECOND = 1
