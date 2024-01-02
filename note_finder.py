@@ -84,6 +84,20 @@ def generate_note_string(note_string):
     return enharmonic + "/" + note_string if "#" in enharmonic else note_string + "/" + enharmonic
 
 
+def find_existing_notes(frequencies):
+    """
+    Finds each of the notes that exist in the passed in frequencies
+    :param frequencies: list of frequencies to determine notes from
+    :return: list of notes based on frequencies
+    """
+    existing_notes = []
+    for frequency in frequencies:
+        # TODO: Update finding closest note to have a maximum frequency difference
+        new_note = min(notes_frequencies, key=lambda note: abs(notes_frequencies[note] - frequency))
+        existing_notes.append(Note(new_note))
+    return existing_notes
+
+
 def find_note_frequency(note="A4"):
     """
     Finds frequency based on passed in note name
@@ -109,20 +123,6 @@ def find_note_frequency(note="A4"):
     else:
         print("Could not find frequency for %s" % note_string)
         return None
-
-
-def find_existing_notes(frequencies):
-    """
-    Finds each of the notes that exist in the passed in frequencies
-    :param frequencies: list of frequencies to determine notes from
-    :return: list of notes based on frequencies
-    """
-    existing_notes = []
-    for frequency in frequencies:
-        # TODO: Update finding closest note to have a maximum frequency difference
-        new_note = min(notes_frequencies, key=lambda note: abs(notes_frequencies[note] - frequency))
-        existing_notes.append(Note(new_note))
-    return existing_notes
 
 
 def find_interval(root_note, next_note):
