@@ -90,7 +90,12 @@ def find_note_frequency(note="A4"):
     :param note: String holding the name of the note to find frequency of
     :return: frequency of given note, -1 if note is invalid
     """
-    # First check for valid string length
+    # Check first if the note string is in valid format
+    frequency = notes_frequencies.get(note)
+    if frequency:
+        return frequency
+
+    # Check for valid string length
     if len(note) != 2 and len(note) != 3:
         return -1
 
@@ -107,6 +112,11 @@ def find_note_frequency(note="A4"):
 
 
 def find_existing_notes(frequencies):
+    """
+    Finds each of the notes that exist in the passed in frequencies
+    :param frequencies: list of frequencies to determine notes from
+    :return: list of notes based on frequencies
+    """
     existing_notes = []
     for frequency in frequencies:
         # TODO: Update finding closest note to have a maximum frequency difference
